@@ -109,7 +109,11 @@ def kitchen(inventory):
   while True:
     choice = input('\nWelcome to the kitchen. In this room you see a "fridge", an "island" in the middle of the room, and a peculiar "door". What would you like to explore?\n')
     if choice == 'fridge':
-      print('A spider jumps out at you, leaving behind cob webs.')
+      gun = input('\nA spider jumps out at you, leaving behind cob webs. Under the cob webs you find a gun, would you like to pick it up?\n')
+      if gun == 'yes':
+        inventory = inventory + ['gun']
+      else:
+        print('I guess you do not get a gun.')
     elif choice == 'island':
       print("You found another picture piece and writting in blood that says 'I CAN'T LIVE THIS WAY!'...")
       inventory = inventory + ['picture_piece4']
@@ -119,7 +123,7 @@ def kitchen(inventory):
       return living_room(inventory)
     else:
       print('Input unknown.')
-  
+      
 #This is the basement you can go back to kitchen from here and gain fifth picture piece
 def basement(inventory):
   while True:
