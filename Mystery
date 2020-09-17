@@ -1,0 +1,220 @@
+#Created by Safiyah Badahdah
+#This program simulates a text adventure game. The goal of the game is to find out what
+#happened in this house by exploring it and find all 8 pieces of a picture
+import sys
+print('Welcome, you wake upon the ground in this living room of this house but nobody seems to be here. Your job is to explore and find out what happened here. Good luck on your adventure. \n')
+
+# This is the living room, in this part you can go to 4 other rooms or explore 
+#one picture piece will be found here
+def living_room(inventory):
+  
+  while True:
+  
+    choice = input("\nIn this room you can 'look' or move 'forward', 'backward', 'right' or 'left'? You may also leave any room and return to the previous room explored. Once you have found all 8 clues you may chose to 'solve' the puzzle. \n")
+    if choice == 'look':
+        while True:
+          answer = input('\nYou are now looking around in the living room in here you see an old "couch", a "lamp", and a "side table", which would you like to look through or would you like to "stop" looking?\n')
+          if answer == 'couch':
+            print('There is only thick layers of dust, while looking through the couch you notice above the couch there is a painting with two people on it but the faces were ripped off.')
+          elif answer == 'side table':
+            print('Oh no! it is locked.')
+          elif answer == 'lamp':
+            while True:
+              open_side_table = input('\nThe lamp has moved slightly and the side table drawer has opened, would you like to look in "yes" "no", or "leave"?\n')
+              if open_side_table == 'yes':
+                print('You have found a 1/8 pieces of a picture.')
+                inventory = inventory + ['picture_piece1']
+              elif open_side_table == 'no':
+                print('You should go back and look in the drawer, you might find something interesting.')
+              elif open_side_table == 'leave':
+                return living_room(inventory)
+              else:
+                print('Unknown input.')
+          elif answer == 'stop':
+            return living_room(inventory)
+          else:
+            print('Input unknown.')
+    
+    elif choice == 'forward':
+      return bedroom_one(inventory) 
+    
+    elif choice == 'left':
+      return bedroom_two(inventory)
+      
+    elif choice == 'right':
+      return kitchen(inventory)
+          
+    elif choice == 'backward':
+      return office(inventory)
+     
+# This will end the game once solved
+    elif choice == 'solve':
+      # return inventory
+      if 'picture_piece1' in inventory and 'picture_piece2' in inventory and 'picture_piece3' in inventory and 'picture_piece4' in inventory and 'picture_piece5' in inventory and 'picture_piece6' in inventory and 'picture_piece7' in inventory and 'picture_piece8' in inventory:
+        solved = 0
+        while solved != 1:
+          puzzle = input('\nYou now have all 8 picture pieces they are labeled 1-8 you must place the in the right order to solve the answer. for example 12345678. If you are stuck you can ask for a hint.\n')
+          if puzzle == '24681357':
+            print('After putting the pieces together you see a picture you remember. It is a picture of you and your lover? After seeing that memories start flooding back to you. You and your lover lived together in this house long ago. You both tragically died in a car accident. You are a spirit reliving the expierence because you blame yourself for the accident. ')
+            print('The End!')
+            solved += 1
+            sys.exit()
+          elif puzzle == 'hint':
+            print('Even then odds.')
+          else:
+            print('Input unknown.')
+           
+      else:
+        print('\nYou have not found all the pieces.\n')
+        return living_room(inventory)
+        
+    elif choice == 'quit':
+     sys.exit() # this will quit the script
+        
+    
+      
+# This is the first bedroom from here you will get one picture piece and access the attic
+def bedroom_one(inventory):
+  while True:
+    choice = input('\nYou are now in the first bedroom. In this bedroom you see an old bed, a closet, and a strange handle hanging from the ceiling. Would you like to explore the "closet", "old bed" or "pull hanging handle"\n')
+    if choice == 'old bed':
+      print('You find nothing but dust bunnies.')
+    elif choice == 'closet':
+      print('You see a small piece of paper on the ground and pick it up, you found another piece of the picture.')
+      inventory = inventory + ['picture_piece2']
+    elif choice == 'pull hanging handle':
+      return attic(inventory)
+    elif choice == "leave":
+      return living_room(inventory)
+    else:
+      print('Input unknown.')
+   
+#This is second bedroom from here you can acces the bathroom and get a third picture piece
+def bedroom_two(inventory):
+  while True:
+    choice = input('\nYou are in the second bedroom. In here you see just a "wardrobe" and another "door", which would you like to explore first?\n')
+    if choice == 'wardrobe':
+      print('You find what seems to be another picture piece. You also find a small toy car covered in blood, when you see it you black out for a second and get a little dizzy.')
+      inventory = inventory + ['picture_piece3']
+
+    elif choice == 'door':
+      return bathroom(inventory)
+    elif choice == 'leave':
+      return living_room(inventory)
+    else:
+      print('Input unknown.')
+
+#This is the Kitchen from here you can get to basement and gain fourth piece
+def kitchen(inventory):
+  while True:
+    choice = input('\nWelcome to the kitchen. In this room you see a "fridge", an "island" in the middle of the room, and a peculiar "door". What would you like to explore?\n')
+    if choice == 'fridge':
+      print('A spider jumps out at you, leaving behind cob webs.')
+    elif choice == 'island':
+      print("You found another picture piece and writting in blood that says 'I CAN'T LIVE THIS WAY!'...")
+      inventory = inventory + ['picture_piece4']
+    elif choice == "door":
+      return basement(inventory)
+    elif choice == 'leave':
+      return living_room(inventory)
+    else:
+      print('Input unknown.')
+  
+#This is the basement you can go back to kitchen from here and gain fifth picture piece
+def basement(inventory):
+  while True:
+    go_down_stairs = input('\nYou opened the door and see a set of creepy stairs, do you want to go down? "yes" or "no"\n')
+    if go_down_stairs == 'yes':
+      while True:
+        choice = input('\nYou are now in the basement. There is "note" on the ground and a "box" next to it, which would you like to look at first?\n')
+        if choice == 'note':
+          print("You look at the note. It is stained in dry blood, it says, 'I didn't expect it to have to come to this. I'm losing all that I had hoped to have. Please help me.' ")
+        elif choice == 'box':
+          print('In this box you seem to have found another small piece of a picture.')
+          inventory = inventory + ['picture_piece5']
+        elif choice == 'leave':
+          return kitchen(inventory)
+        else:
+          print('Input unknown.')
+    elif go_down_stairs == 'no':
+      return kitchen(inventory)
+    else:
+      print('Input unknown.')
+
+#In the office you will get another picture piece and get into secret room
+def office(inventory):
+  while True:
+    choice = input('\nYou walk into what seems to be a familiar office. Have you been here before? In this room you see a large bookcase and a dusty desk with and old computer, would you like to "sit" at the desk, look at the "bookcase" or "leave"? \n')
+    if choice == 'sit':
+      while True:
+        desk = input('\nYou sit down at the desk would you like to look through the drawers or try to turn on computer?\n')
+        if desk == 'drawers':
+          print('While snooping through the drawers you find another piece of the picture.')
+          inventory = inventory + ['picture_piece6']
+        elif desk == 'turn on computer':
+          print('You turned on the computer and a short video plays. In the video their are two people laughing together on the beach, the faces are blurred. You start to feel dizzy.')
+        elif desk == 'get up':
+          return office(inventory)
+        else:
+          print('Input unknown.')
+    elif choice == 'bookcase':
+      while True:
+        puzzle2 = input('\nWhile fiddling with the books you find a screen behind the books. On the screen there is a question that says, "What is the popular murder mystery board game made in 1949? You may ask for a "hint" \n')
+        if puzzle2 == 'clue':
+          return secret_room(inventory)
+        elif puzzle2 == 'hint':
+          print('It was also a movie made in 1985.')
+        else:
+          print('Unknown input.')
+    elif choice == 'leave':
+      return living_room(inventory)
+    else:
+      print('Input unknown.')
+      
+#In the attic you can go back to first bedroom and get another picture piece
+def attic(inventory):
+  while True:
+    choice = input('\nYou find yourself in a dusty attic. All you find up here is a small music box. Would you like to go "play" the music box or "leave"? \n')
+    if choice == 'leave':
+      return bedroom_one(inventory)
+    elif choice == 'play':
+      print('The music box plays a familiar tune but you can not quite place it. You also find a small picture piece. ')
+      inventory = inventory + ['picture_piece7']
+    else:
+      print('Input unknown.')
+    
+#There isn't much you can do in the bathroom
+def bathroom(inventory):
+  while True:
+    choice = input('\nStill feeling a little faint you enter a not very nice looking bathroom. Would you like to wash you face to "refresh" yourself or "leave"?\n')
+    if choice == 'refresh':
+      print('You feel a little better but something is scratching at you brain like a memory you can not quite place.')
+    elif choice == 'leave':
+      return bedroom_two(inventory)
+    else:
+      print('Input unknown.')
+    
+ 
+# In the secret room you can go back to the office and get another picture piece
+# You will have to solve puzzle to get in
+def secret_room(inventory):
+  while True:
+    choice = input('\nAfter answering the question correctly you enter a secret room. In here you find a stool with a lock box, would you like to "open" it or "leave"? \n')
+    if choice == 'open':
+      print('You open the the locked box and find another piece of the picture. You also find a ring box with a ring inside, how odd.')
+      inventory = inventory + ['picture_piece8']
+    elif choice == 'leave':
+      return office(inventory)
+    else:
+      print('Unknown input.')
+    
+ 
+    
+  
+
+
+def main():
+  inventory = []
+  living_room(inventory)
+
+main()
